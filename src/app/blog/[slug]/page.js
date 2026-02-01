@@ -3,7 +3,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Clock, Calendar, User, Share2 } from 'lucide-react';
 import AdPlaceholder from '@/components/Ads/AdPlaceholder';
-import { getPostBySlug, getRelatedPosts } from '@/lib/blog/utils';
+import { getPostBySlug, getRelatedPosts, getAllPosts } from '@/lib/blog/utils';
+
+export async function generateStaticParams() {
+    const posts = await getAllPosts();
+    return posts.map((post) => ({
+        slug: post.slug,
+    }));
+}
 
 export async function generateMetadata({ params }) {
     const { slug } = await params;
